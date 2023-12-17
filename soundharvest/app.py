@@ -104,7 +104,9 @@ if url:
         try:
             info: dict[str, Any] = ydl.extract_info(url, download=False)
 
-        except DownloadError:
+        except DownloadError as e:
+            print(e)  # FIXME
+
             st.error(f"'{url}' is not a valid URL.")
 
         else:
