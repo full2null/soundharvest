@@ -1,4 +1,5 @@
 from os import remove
+from pathlib import Path
 from typing import Any
 
 import streamlit as st
@@ -74,8 +75,6 @@ st.set_page_config(
     page_title="SoundHarvest",
     page_icon=":musical_note:",
     menu_items={
-        "Report a bug": "https://github.com/full2null/soundharvest/issues/new/choose",
-        "Get help": "https://github.com/full2null/soundharvest",
         "About": "Harvest audio files from YouTube, using yt-dlp.",
     },
 )
@@ -215,7 +214,7 @@ if url:
 
             filename: str = sanitize_filename(f"{title}.{extension}")
 
-            with open(f"cache/{filename}", "rb") as f:
+            with open(Path(f"./cache/{filename}"), "rb") as f:
                 placeholder.download_button(
                     "Download",
                     data=f,
