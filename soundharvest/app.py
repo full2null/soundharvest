@@ -12,6 +12,9 @@ class QuietLogger:
     def debug(self, message: str) -> None:
         pass
 
+    def info(self, message: str) -> None:
+        pass
+
     def warning(self, message: str) -> None:
         pass
 
@@ -231,5 +234,5 @@ if url:
             st.error("Video unavailable.")
 
         else:
-            # TODO: A better error message
+            # TODO: More detailed error message
             st.error("An error occurred.")
