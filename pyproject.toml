@@ -5,7 +5,7 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry]
 name = "soundharvest"
 version = "1.0.0"
-description = "Harvest audio files from YouTube, using yt-dlp."
+description = "Extract audio files from YouTube, using yt-dlp."
 authors = ["Minjoon Kim <mg7441081@gmail.com>"]
 license = "MIT"
 readme = "README.md"

@@ -78,7 +78,7 @@ st.set_page_config(
     page_title="SoundHarvest",
     page_icon=":musical_note:",
     menu_items={
-        "About": "Harvest audio files from YouTube, using yt-dlp.",
+        "About": "Extract audio files from YouTube, using yt-dlp.",
     },
 )
 
@@ -126,7 +126,7 @@ st.title("SoundHarvest", anchor=False)
 url: str = st.text_input(
     "YouTube URL",
     on_change=on_url_change,
-    placeholder="Enter YouTube URL...",
+    placeholder="Enter YouTube URL",
     label_visibility="collapsed",
 )
 
