@@ -47,12 +47,12 @@ def format_quality(option: str) -> str:
 
 
 def on_download() -> None:
-    # TODO: try / except
+    # TODO: try-except
     remove(f"cache/{filename}")
 
 
 def on_url_change() -> None:
-    state["extracted_info"]: dict[str, Any] | None = None
+    state["extracted_info"] = None
 
 
 def sanitize_filename(filename: str) -> str:
@@ -85,19 +85,19 @@ st.set_page_config(
 state: SessionStateProxy = st.session_state
 
 if "cbr" not in state:
-    state["cbr"]: str = ""
+    state["cbr"] = ""
 
 if "codec" not in state:
-    state["codec"]: str = ""
+    state["codec"] = ""
 
 if "extracted_info" not in state:
-    state["extracted_info"]: dict[str, Any] | None = None
+    state["extracted_info"] = None
 
 if "quality" not in state:
-    state["quality"]: str = ""
+    state["quality"] = ""
 
 if "ydl_options" not in state:
-    state["ydl_options"]: dict[str, Any] = {
+    state["ydl_options"] = {
         "final_ext": None,
         "format": "ba/b",
         "logger": QuietLogger(),
@@ -136,9 +136,7 @@ if url:
     try:
         if state["extracted_info"] is None:
             with YoutubeDL(ydl_options) as ydl:
-                state["extracted_info"]: dict[str, Any] | None = ydl.extract_info(
-                    url, download=False
-                )
+                state["extracted_info"] = ydl.extract_info(url, download=False)
 
         thumbnail_url: str = state["extracted_info"]["thumbnail"]
         title: str = state["extracted_info"]["title"]
@@ -148,13 +146,13 @@ if url:
         st.subheader(title, anchor=False)
         st.write(uploader)
 
-        state["codec"]: str = st.radio(
+        state["codec"] = st.radio(
             "Codec",
             ["mp3", "aac", "opus"],
             format_func=format_codec,
             horizontal=True,
         )
-        state["quality"]: str = st.radio(
+        state["quality"] = st.radio(
             "Quality",
             ["0", "2", "4"],
             format_func=format_quality,
@@ -162,7 +160,7 @@ if url:
             horizontal=True,
         )
         # TODO: Add description about CBR
-        state["cbr"]: bool = st.toggle(
+        state["cbr"] = st.toggle(
             "Enable CBR",
             help="Currently not working on Opus codec.",
         )
@@ -177,27 +175,19 @@ if url:
                     disabled=True,
                 )
 
-                ydl_options["postprocessors"][0]["preferredcodec"]: str = state["codec"]
-                ydl_options["postprocessors"][0]["preferredquality"]: str = state[
-                    "quality"
-                ]
+                ydl_options["postprocessors"][0]["preferredcodec"] = state["codec"]
+                ydl_options["postprocessors"][0]["preferredquality"] = state["quality"]
 
                 if state["cbr"]:
                     match state["quality"]:
                         case "0":
-                            ydl_options["postprocessors"][0][
-                                "preferredquality"
-                            ]: str = "320"
+                            ydl_options["postprocessors"][0]["preferredquality"] = "320"
 
                         case "2":
-                            ydl_options["postprocessors"][0][
-                                "preferredquality"
-                            ]: str = "192"
+                            ydl_options["postprocessors"][0]["preferredquality"] = "192"
 
                         case "4":
-                            ydl_options["postprocessors"][0][
-                                "preferredquality"
-                            ]: str = "128"
+                            ydl_options["postprocessors"][0]["preferredquality"] = "128"
 
                 with YoutubeDL(ydl_options) as ydl:
                     ydl.download([url])
